@@ -60,3 +60,6 @@ end
 group :production do
   gem 'pg'
 end
+
+gem 'paperclip', "4.3.2"
+gem 'aws-sdk', '< 2.0'

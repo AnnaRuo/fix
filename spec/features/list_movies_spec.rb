@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe "Viewing the list of movies" do
-  
-  it "shows the movies" do    
+
+  it "shows the movies" do
     movie1 = Movie.create(title: "Iron Man",
                           rating: "PG-13",
                           total_gross: 318412101.00,
@@ -11,7 +11,7 @@ describe "Viewing the list of movies" do
                           cast: "Robert Downey Jr., Gwyneth Paltrow and Terrence Howard",
                           director: "Jon Favreau",
                           duration: "126 min",
-                          image_file_name: "ironman.jpg")
+                          image: open("#{Rails.root}/app/assets/images/ironman.jpg")
 
     movie2 = Movie.create(title: "Superman",
                           rating: "PG",
@@ -45,14 +45,15 @@ describe "Viewing the list of movies" do
     expect(page).to have_text("$318,412,101.00")
     expect(page).to have_text(movie1.cast)
     expect(page).to have_text(movie1.duration)
+    expect(page).to have_selector("img[src$='#{movie1.image.url}']")
   end
-  
+
   it "does not show a movie that hasn't yet been released" do
     movie = Movie.create(movie_attributes(released_on: 1.month.from_now))
-    
+
     visit movies_path
-    
+
     expect(page).not_to have_text(movie.title)
   end
-  
+
 end
